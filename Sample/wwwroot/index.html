@@ -10,7 +10,7 @@
             let http = new signalR.HttpConnection('http://' + document.location.host + '/chat');
             let connection = new signalR.HubConnection(http);
 
-            connection.on('Send', data => {
+            connection.on('send', data => {
                 let child = document.createElement('li');
                 child.innerText = data;
                 document.getElementById('messages').appendChild(child);
@@ -18,7 +18,7 @@
 
             document.getElementById('sendmessage').addEventListener('submit', event => {
                 let data = document.getElementById('data').value;
-                connection.invoke('Send', data);
+                connection.invoke('send', data);
                 event.preventDefault();
             });
 
