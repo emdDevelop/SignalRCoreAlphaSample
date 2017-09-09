@@ -16,8 +16,8 @@
                 document.getElementById('messages').appendChild(child);
             });
 
-            document.getElementById('sendmessage').addEventListener('submit', event => {
-                let data = document.getElementById('data').value;
+            document.getElementById('chat').addEventListener('submit', event => {
+                let data = document.getElementById('message').value;
                 connection.invoke('send', data);
                 event.preventDefault();
             });
@@ -28,8 +28,8 @@
 </head>
 <body>
 
-    <form id="sendmessage">
-        <input type="text" id="data" />
+    <form id="chat">
+        <input type="text" id="message" />
         <input type="submit" value="Send" />
     </form>
 
