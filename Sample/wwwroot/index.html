@@ -6,8 +6,7 @@
     <script src="signalr-client.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-
-            let http = new signalR.HttpConnection('http://' + document.location.host + '/chat');
+            let http = new signalR.HttpConnection(document.location.protocol + '//' + document.location.host + '/chat');
             let connection = new signalR.HubConnection(http);
 
             connection.on('send', data => {

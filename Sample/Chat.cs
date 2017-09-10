@@ -6,7 +6,7 @@ namespace Sample
 {
     public class Chat : Hub
     {
-        public  override Task OnConnectedAsync()
+        public override Task OnConnectedAsync()
         {
             return Clients.All.InvokeAsync("Send", $"{Context.ConnectionId} joined");
         }
