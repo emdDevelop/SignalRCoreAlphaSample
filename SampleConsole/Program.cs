@@ -14,7 +14,7 @@ namespace SampleConsole
                             .WithUrl("http://localhost:5000/chat")
                             .WithMessagePackProtocol()
                             .WithConsoleLogger()
-                            .WithTransportType(TransportType.WebSockets)
+                            .WithTransport(TransportType.WebSockets)
                             .Build();
 
             await connection.StartAsync();
