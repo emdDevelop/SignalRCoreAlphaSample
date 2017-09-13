@@ -6,8 +6,7 @@
     <script src="signalr-client.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            let http = new signalR.HttpConnection(document.location.protocol + '//' + document.location.host + '/chat');
-            let connection = new signalR.HubConnection(http);
+            let connection = new signalR.HubConnection('/chat');
 
             connection.on('send', data => {
                 let child = document.createElement('li');
@@ -15,8 +14,8 @@
                 document.getElementById('messages').appendChild(child);
             });
 
-            document.getElementById('chat').addEventListener('submit', event => {
-                let data = document.getElementById('message').value;
+            document.getElementById('sendmessage').addEventListener('submit', event => {
+                let data = document.getElementById('data').value;
                 connection.invoke('send', data);
                 event.preventDefault();
             });
@@ -27,8 +26,8 @@
 </head>
 <body>
 
-    <form id="chat">
-        <input type="text" id="message" />
+    <form id="sendmessage">
+        <input type="text" id="data" />
         <input type="submit" value="Send" />
     </form>
 
