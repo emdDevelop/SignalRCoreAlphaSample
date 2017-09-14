@@ -75,6 +75,4 @@ connection.On<string>("Send", data =>
 await connection.StartAsync();
 
 await connection.InvokeAsync("Send", "Hello");
-
-await connection.DisposeAsync();
 ```
