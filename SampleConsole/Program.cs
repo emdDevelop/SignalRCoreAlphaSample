@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
-using Microsoft.AspNetCore.Sockets;
 
 namespace SampleConsole
 {
@@ -14,10 +13,8 @@ namespace SampleConsole
                             .WithUrl("http://localhost:5000/chat")
                             .WithMessagePackProtocol()
                             .WithConsoleLogger()
-                            .WithTransport(TransportType.WebSockets)
                             .Build();
 
-            await connection.StartAsync();
             var cts = new CancellationTokenSource();
 
             Console.CancelKeyPress += (sender, e) =>
@@ -36,6 +33,8 @@ namespace SampleConsole
             {
                 Console.WriteLine($"Server: {data}");
             });
+
+            await connection.StartAsync();
 
             var cancelledTask = Task.Delay(-1, cts.Token);
 
