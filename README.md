@@ -46,6 +46,8 @@ namespace Sample
 
 ## Client
 
+### Javascript
+
 ```javascript
 let connection = new signalR.HubConnection('/chat');
 
@@ -55,4 +57,24 @@ connection.on('send', data => {
 
 connection.start()
     .then(() => connection.invoke('send', 'Hello'));
+```
+
+### C#
+
+```C#
+var connection = new HubConnectionBuilder()
+                .WithUrl("http://localhost:5000/chat")
+                .WithConsoleLogger()
+                .Build();
+
+connection.On<string>("Send", data =>
+{
+    Console.WriteLine($"Received: {data}");
+});
+
+await connection.StartAsync();
+
+await connection.InvokeAsync("Send", "Hello");
+
+await connection.DisposeAsync();
 ```
