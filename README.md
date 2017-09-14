@@ -47,13 +47,12 @@ namespace Sample
 ## Client
 
 ```javascript
-let http = new signalR.HttpConnection('http://' + document.location.host + '/chat');
-let connection = new signalR.HubConnection(http);
+let connection = new signalR.HubConnection('/chat');
 
-connection.on('Send', data => {
+connection.on('send', data => {
     console.log(data);
 });
 
 connection.start()
-    .then(() => connection.invoke('Send', 'Hello'));
+    .then(() => connection.invoke('send', 'Hello'));
 ```
