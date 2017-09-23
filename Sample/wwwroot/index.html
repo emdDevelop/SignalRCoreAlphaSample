@@ -5,31 +5,59 @@
     <title>SignalR Samples</title>
     <script src="signalr-client-1.0.0-alpha1.min.js"></script>
     <script>
+        function guid() {
+            function s4() {
+                return Math.floor((1 + Math.random()) * 0x10000)
+                    .toString(16)
+                    .substring(1);
+            }
+            return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+                s4() + '-' + s4() + s4() + s4();
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
-            let connection = new signalR.HubConnection('/chat');
+            let stopButton = document.getElementById('stop');
+            let resumeButton = document.getElementById('resume');
 
-            connection.on('send', data => {
-                let child = document.createElement('li');
-                child.innerText = data;
-                document.getElementById('messages').appendChild(child);
+            resumeButton.disabled = false;
+            stopButton.disabled = true;
+
+            let sessionId = guid();
+            var connection;
+
+            function start() {
+                connection = new signalR.HubConnection('/numbers?session=' + sessionId);
+
+                connection.on('send', data => {
+                    let child = document.createElement('li');
+                    child.innerText = data;
+                    document.getElementById('messages').appendChild(child);
+                });
+
+                connection.start().then(() => {
+                    resumeButton.disabled = true;
+                    stopButton.disabled = false;
+                });
+            }
+
+            stopButton.addEventListener('click', function () {
+                connection.stop();
+                stopButton.disabled = true;
+                resumeButton.disabled = false;
             });
 
-            document.getElementById('sendmessage').addEventListener('submit', event => {
-                let data = document.getElementById('data').value;
-                connection.invoke('send', data);
-                event.preventDefault();
+            resumeButton.addEventListener('click', function () {
+                start();
             });
 
-            connection.start();
+            start();
         });
     </script>
 </head>
 <body>
 
-    <form id="sendmessage">
-        <input type="text" id="data" />
-        <input type="submit" value="Send" />
-    </form>
+    <button id="stop">Stop</button>
+    <button id="resume">Resume</button>
 
     <ul id="messages"></ul>
 
